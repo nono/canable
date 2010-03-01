@@ -1,6 +1,6 @@
 = Canable
 
-Simple permissions that I have used on my last several projects so I figured it was time to abstract and wrap up into something more easily reusable.
+Simple permissions that I have used on my last several Rails projects so I figured it was time to abstract and wrap up into something more easily reusable.
 
 == Cans
 
@@ -43,7 +43,7 @@ Lets say an article can be viewed and created by anyone, but only updated or des
 Lets look at some sample code now:
 
     john = User.create(:name => 'John')
-    steve = User.create(:name =. 'Steve')
+    steve = User.create(:name => 'Steve')
     
     ruby = Article.new(:title => 'Ruby')
     john.can_create?(ruby) # true
@@ -72,8 +72,6 @@ Now we can implement our permissions for each resource and then always check whe
 Including Canable::Enforcers adds an enforce permission method for each of the actions defined (by default view/create/update/destroy). It is the same thing as doing this for each Canable action:
 
     class ApplicationController
-      include Canable::Enforcers
-
       delegate :can_view?, :to => :current_user
       helper_method :can_view? # so you can use it in your views
       hide_action :can_view?
@@ -97,7 +95,7 @@ If the user can_view? the article, all is well. If not, a Canable::Transgression
 
 == Adding Your Own Actions
 
-You can add your own actions like this:
+You can add your own actions like this (in +config/initializers/canable.rb+ for example):
 
     Canable.add(:publish, :publishable)
 
